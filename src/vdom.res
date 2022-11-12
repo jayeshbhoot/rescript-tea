@@ -82,6 +82,16 @@ let attribute = (namespace: string, key: string, value: string): property<'msg> 
   key,
   value,
 )
+let booleanAttribute = (namespace, key, value) => {
+  // The boolean characteristic of a boolean attribute
+  // is denoted by the presence or absence of the attribute,
+  // and not by true/false values.
+  // e.g., https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details#attr-open
+  switch value {
+  | true => attribute(namespace, key, "")
+  | false => noProp
+  }
+}
 
 let data = (key: string, value: string): property<'msg> => Data(key, value)
 

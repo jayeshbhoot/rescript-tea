@@ -55,6 +55,7 @@ let onCB: (~key: string, string, Dom.event => option<'msg>) => property<'msg>
 let onMsg: (string, 'msg) => property<'msg>
 
 let attribute: (string, string, string) => property<'msg>
+let booleanAttribute: (string, string, bool) => property<'msg>
 
 let data: (string, string) => property<'msg>
 
