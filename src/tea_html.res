@@ -645,6 +645,16 @@ module Attributes = {
   let ariaChecked = (v: bool) => attribute("", "aria-checked", string_of_bool(v))
 
   let ariaHidden = (v: bool) => attribute("", "aria-hidden", string_of_bool(v))
+
+  let ariaSelected = v => attribute("", "aria-selected", string_of_bool(v))
+
+  let ariaControls = id => attribute("", "aria-controls", id)
+
+  let ariaLabelledBy = id => attribute("", "aria-labelledby", id)
+
+  let ariaDescribedBy = id => attribute("", "aria-describedby", id)
+
+  let ariaErrorMessage = id => attribute("", "aria-errormessage", id)
 }
 
 module Events = {

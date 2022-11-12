@@ -916,6 +916,16 @@ module Attributes: {
   let ariaChecked: bool => Vdom.property<'msg>
 
   let ariaHidden: bool => Vdom.property<'msg>
+
+  let ariaSelected: bool => Vdom.property<'msg>
+
+  let ariaControls: string => Vdom.property<'msg>
+
+  let ariaLabelledBy: string => Vdom.property<'msg>
+
+  let ariaDescribedBy: string => Vdom.property<'msg>
+
+  let ariaErrorMessage: string => Vdom.property<'msg>
 }
 module Events: {
   type options = {stopPropagation: bool, preventDefault: bool}
