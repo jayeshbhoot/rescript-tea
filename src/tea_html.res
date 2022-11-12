@@ -636,6 +636,8 @@ module Attributes = {
 
   let manifest = value => attribute("", "manifest", value)
 
+  let open' = b => booleanAttribute("", "open", b)
+
   @@ocaml.text(" {1 Aria and accessibility} ")
 
   let role = (name: string) => attribute("", "role", name)

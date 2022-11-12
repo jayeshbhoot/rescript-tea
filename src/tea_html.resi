@@ -909,6 +909,8 @@ module Attributes: {
 
   let manifest: string => Vdom.property<'msg>
 
+  let open': bool => Vdom.property<'msg>
+
   let role: string => Vdom.property<'msg>
 
   let ariaChecked: bool => Vdom.property<'msg>
