@@ -363,19 +363,9 @@ module Attributes = {
       },
     )
 
-  let autofocus = b =>
-    if b {
-      prop("autofocus", "autofocus")
-    } else {
-      noProp
-    }
+  let autofocus = b => booleanAttribute("", "autofocus", b)
 
-  let disabled = b =>
-    if b {
-      attribute("", "disabled", "true")
-    } else {
-      noProp
-    }
+  let disabled = b => booleanAttribute("", "disabled", b)
 
   let enctype = encoding => attribute("", "enctype", encoding)
 
