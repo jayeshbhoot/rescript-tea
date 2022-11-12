@@ -636,11 +636,11 @@ module Attributes = {
 
   let manifest = value => attribute("", "manifest", value)
 
-  let role = (name: string) => Vdom.prop("role", name)
+  let role = (name: string) => attribute("", "role", name)
 
-  let ariaChecked = (v: bool) => Vdom.prop("aria-checked", string_of_bool(v))
+  let ariaChecked = (v: bool) => attribute("", "aria-checked", string_of_bool(v))
 
-  let ariaHidden = (v: bool) => Vdom.prop("aria-hidden", string_of_bool(v))
+  let ariaHidden = (v: bool) => attribute("", "aria-hidden", string_of_bool(v))
 }
 
 module Events = {
