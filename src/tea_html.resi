@@ -987,6 +987,8 @@ module Events: {
 
   let onSubmit: 'msg => Vdom.property<'msg>
 
+  let onLinkClick: 'msg => Vdom.property<'msg>
+
   let onBlur: 'msg => Vdom.property<'msg>
 
   let onFocus: 'msg => Vdom.property<'msg>

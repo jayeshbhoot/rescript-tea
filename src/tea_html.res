@@ -752,6 +752,10 @@ module Events = {
 
   let onSubmit = msg => preventDefaultOn("submit", Tea_json.Decoder.succeed(msg))
 
+  @@ocaml.text(" {1 Link helpers} ")
+
+  let onLinkClick = msg => preventDefaultOn("click", Tea_json.Decoder.succeed(msg))
+
   @@ocaml.text(" {1 Focus helpers} ")
 
   let onBlur = msg => onMsg("blur", msg)
