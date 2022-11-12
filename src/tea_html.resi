@@ -925,6 +925,8 @@ module Attributes: {
 
   let ariaDescribedBy: string => Vdom.property<'msg>
 
+  let ariaDescribedByMany: array<string> => Vdom.property<'msg>
+
   let ariaErrorMessage: string => Vdom.property<'msg>
 }
 module Events: {

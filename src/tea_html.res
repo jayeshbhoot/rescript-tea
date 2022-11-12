@@ -644,6 +644,11 @@ module Attributes = {
 
   let ariaDescribedBy = id => attribute("", "aria-describedby", id)
 
+  let ariaDescribedByMany = (ids: array<string>) => {
+    let idString = ids->Js.Array2.joinWith(" ")
+    attribute("", "aria-describedby", idString)
+  }
+
   let ariaErrorMessage = id => attribute("", "aria-errormessage", id)
 }
 
