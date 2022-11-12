@@ -636,6 +636,8 @@ module Attributes = {
 
   let manifest = value => attribute("", "manifest", value)
 
+  @@ocaml.text(" {1 Aria and accessibility} ")
+
   let role = (name: string) => attribute("", "role", name)
 
   let ariaChecked = (v: bool) => attribute("", "aria-checked", string_of_bool(v))
