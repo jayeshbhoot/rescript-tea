@@ -617,6 +617,8 @@ module Attributes = {
 
   let role = (name: string) => attribute("", "role", name)
 
+  let ariaInvalid = (v: bool) => attribute("", "aria-invalid", string_of_bool(v))
+
   let ariaChecked = (v: bool) => attribute("", "aria-checked", string_of_bool(v))
 
   let ariaHidden = (v: bool) => attribute("", "aria-hidden", string_of_bool(v))
