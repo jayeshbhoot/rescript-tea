@@ -394,12 +394,7 @@ module Attributes = {
 
   let readonly = b => booleanAttribute("", "readonly", b)
 
-  let required = b =>
-    if b {
-      attribute("", "required", "required")
-    } else {
-      noProp
-    }
+  let required = b => booleanAttribute("", "required", b)
 
   let size = n => attribute("", "size", string_of_int(n))
 
