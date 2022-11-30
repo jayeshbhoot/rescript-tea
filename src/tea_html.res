@@ -392,12 +392,7 @@ module Attributes = {
 
   let pattern = p => prop("pattern", p)
 
-  let readonly = b =>
-    if b {
-      attribute("", "readonly", "readonly")
-    } else {
-      noProp
-    }
+  let readonly = b => booleanAttribute("", "readonly", b)
 
   let required = b =>
     if b {
