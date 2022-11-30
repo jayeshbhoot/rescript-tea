@@ -388,12 +388,7 @@ module Attributes = {
 
   let name = str => prop("name", str)
 
-  let novalidate = b =>
-    if b {
-      prop("novalidate", "novalidate")
-    } else {
-      noProp
-    }
+  let novalidate = b => booleanAttribute("", "novalidate", b)
 
   let pattern = p => prop("pattern", p)
 
