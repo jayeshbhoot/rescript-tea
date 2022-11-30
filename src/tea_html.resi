@@ -913,6 +913,8 @@ module Attributes: {
 
   let role: string => Vdom.property<'msg>
 
+  let ariaInvalid: bool => Vdom.property<'msg>
+
   let ariaChecked: bool => Vdom.property<'msg>
 
   let ariaHidden: bool => Vdom.property<'msg>
