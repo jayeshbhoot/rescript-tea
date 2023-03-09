@@ -173,7 +173,7 @@ type responseBody =
   | NoResponse
   | StringResponse(string)
   | ArrayBufferResponse(unit)
-  | BlobResponse(unit)
+  | BlobResponse(Webapi.Blob.t)
   | DocumentResponse(Dom.document)
   | JsonResponse(Js.Json.t)
   | TextResponse(string)
