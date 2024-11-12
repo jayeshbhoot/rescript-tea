@@ -63,7 +63,7 @@ let debug = (
       properties
       |> List.map(((k, v)) => k ++ (":" ++ v))
       |> String.concat(";")
-      |> (x => j`$(selector) {$(x)}`)
+      |> (x => `${selector} {${x}}`)
       |> text
 
     node(
@@ -331,7 +331,7 @@ let debug = (
                     E.onClick(TogglePaused),
                     paused ? A.title("click to resume") : A.title("click to pause"),
                   },
-                  list{j`Explore History ($(historyCount))` |> text},
+                  list{`Explore History (${historyCount->Belt.Int.toString})` |> text},
                 ),
                 if paused {
                   viewHistory(model, selectedIndex)

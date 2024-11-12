@@ -13,5 +13,6 @@
   "bs-dependencies": ["rescript-webapi"],
   "warnings": {
     "error" : false
-  }
+  },
+  "uncurried": false
 }

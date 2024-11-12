@@ -439,7 +439,7 @@ module Encoder = {
     Obj.magic(o)
   }
 
-  let array = (v: array<'t>): Js.Json.t => Obj.magic(Js.Json.Array, v)
+  let array = (v: array<'t>): Js.Json.t => Obj.magic(Js.Json.Array(v))
 
   let list = (v: list<'t>): Js.Json.t => Obj.magic(Array.of_list(v))
 }

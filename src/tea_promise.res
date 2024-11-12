@@ -24,8 +24,9 @@ let result = (promise, msg) => {
         Js.Promise.resolve(resolve)
       })
       |> Js.Promise.catch(err => {
-        let err_to_string = err => j`$err`
-        let reject = enq(Error(err_to_string(err)))
+        // inspired by: https://forum.rescript-lang.org/t/match-map-js-promise-error-to-something-sensible/3651/5
+        let errStr: string = err->%raw("(x => String(x))")
+        let reject = enq(Error(errStr))
         Js.Promise.resolve(reject)
       })
   })
