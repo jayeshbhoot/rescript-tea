@@ -63,4 +63,5 @@ let main = Tea.Debug.beginnerProgram(
     view: view,
   },
   string_of_msg,
+  ...
 )

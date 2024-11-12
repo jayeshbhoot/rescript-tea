@@ -38,10 +38,10 @@ type expect<'res> = Expect(bodyType, response => result<'res, string>)
 
 type requestEvents<'msg> = {
   onreadystatechange: option<
-    (ref<Vdom.applicationCallbacks<'msg>>, Web.XMLHttpRequest.eventReadystatechange) => unit,
+    ref<Vdom.applicationCallbacks<'msg>> => Web.XMLHttpRequest.eventReadystatechange => unit,
   >,
   onprogress: option<
-    (ref<Vdom.applicationCallbacks<'msg>>, Web.XMLHttpRequest.eventProgress) => unit,
+    ref<Vdom.applicationCallbacks<'msg>> => Web.XMLHttpRequest.eventProgress => unit,
   >,
 }
 
@@ -82,7 +82,7 @@ let getString = url =>
   request({
     method: "GET",
     headers: list{},
-    url: url,
+    url,
     body: Web.XMLHttpRequest.EmptyBody,
     expect: expectString,
     timeout: None,
@@ -95,8 +95,8 @@ let toTask = (Request(request, _maybeEvents)) => {
   let Expect(typ, responseToResult) = expect
   Tea_task.nativeBinding(cb => {
     let enqRes = (result, _ev) => cb(result)
-    let enqResError = result => enqRes(Error(result))
-    let enqResOk = result => enqRes(Ok(result))
+    let enqResError = result => enqRes(Error(result), ...)
+    let enqResOk = result => enqRes(Ok(result), ...)
     let xhr = Web.XMLHttpRequest.create()
     let setEvent = (ev, cb) => ev(cb, xhr)
     let () = setEvent(Web.XMLHttpRequest.set_onerror, enqResError(NetworkError))
@@ -110,21 +110,21 @@ let toTask = (Request(request, _maybeEvents)) => {
       }
       let response = {
         status: {code: get_status(xhr), message: get_statusText(xhr)},
-        headers: headers,
+        headers,
         url: get_responseURL(xhr),
         body: get_response(xhr),
       }
       if response.status.code < 200 || 300 <= response.status.code {
-        enqResError(BadStatus(response), ())
+        enqResError(BadStatus(response))()
       } else {
         switch responseToResult(response) {
-        | Error(error) => enqResError(BadPayload(error, response), ())
-        | Ok(result) => enqResOk(result, ())
+        | Error(error) => enqResError(BadPayload(error, response))()
+        | Ok(result) => enqResOk(result)()
         }
       }
     })
     let () = try Web.XMLHttpRequest.open'(method, url, xhr) catch {
-    | _ => enqResError(BadUrl(url), ())
+    | _ => enqResError(BadUrl(url))()
     }
     let () = {
       let setHeader = (Header(k, v)) => Web.XMLHttpRequest.setRequestHeader(k, v, xhr)
@@ -149,8 +149,8 @@ let send = (resultToMessage, Request(request, maybeEvents)) => {
       open Vdom
       callbacks.contents.enqueue(resultToMessage(result))
     }
-    let enqResError = result => enqRes(Error(result))
-    let enqResOk = result => enqRes(Ok(result))
+    let enqResError = result => enqRes(Error(result), ...)
+    let enqResOk = result => enqRes(Ok(result), ...)
     let xhr = Web.XMLHttpRequest.create()
     let setEvent = (ev, cb) => ev(cb, xhr)
     let () = switch maybeEvents {
@@ -162,8 +162,8 @@ let send = (resultToMessage, Request(request, maybeEvents)) => {
         | None => ()
         | Some(v) => thenDo(v(callbacks))
         }
-      let () = mayCB(setEvent(set_onreadystatechange), onreadystatechange)
-      let () = mayCB(setEvent(set_onprogress), onprogress)
+      let () = mayCB(setEvent(set_onreadystatechange, ...), onreadystatechange)
+      let () = mayCB(setEvent(set_onprogress, ...), onprogress)
     }
     let () = setEvent(Web.XMLHttpRequest.set_onerror, enqResError(NetworkError))
     let () = setEvent(Web.XMLHttpRequest.set_ontimeout, enqResError(Timeout))
@@ -176,21 +176,21 @@ let send = (resultToMessage, Request(request, maybeEvents)) => {
       }
       let response = {
         status: {code: get_status(xhr), message: get_statusText(xhr)},
-        headers: headers,
+        headers,
         url: get_responseURL(xhr),
         body: get_response(xhr),
       }
       if response.status.code < 200 || 300 <= response.status.code {
-        enqResError(BadStatus(response), ())
+        enqResError(BadStatus(response))()
       } else {
         switch responseToResult(response) {
-        | Error(error) => enqResError(BadPayload(error, response), ())
-        | Ok(result) => enqResOk(result, ())
+        | Error(error) => enqResError(BadPayload(error, response))()
+        | Ok(result) => enqResOk(result)()
         }
       }
     })
     let () = try Web.XMLHttpRequest.open'(method, url, xhr) catch {
-    | _ => enqResError(BadUrl(url), ())
+    | _ => enqResError(BadUrl(url))()
     }
     let () = {
       let setHeader = (Header(k, v)) => Web.XMLHttpRequest.setRequestHeader(k, v, xhr)
@@ -254,7 +254,7 @@ module Progress = {
      Might still want to make a subscription variant though... */
   let track = (toMessage, Request(request, events)) => {
     let onprogress = Some(
-      (callbacks, ev) => {
+      callbacks => ev => {
         open Vdom
         let lengthComputable = {
           open Tea_json.Decoder
@@ -268,7 +268,7 @@ module Progress = {
           open Tea_json.Decoder
 
           let decoder = map2(
-            (bytes, bytesExpected) => {bytes: bytes, bytesExpected: bytesExpected},
+            (bytes, bytesExpected) => {bytes, bytesExpected},
             field("loaded", int),
             field("total", int),
           )
@@ -284,6 +284,6 @@ module Progress = {
     | None => emptyRequestEvents
     | Some(e) => e
     }
-    Request(request, Some({...events, onprogress: onprogress}))
+    Request(request, Some({...events, onprogress}))
   }
 }

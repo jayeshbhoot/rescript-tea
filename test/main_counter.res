@@ -41,8 +41,12 @@ let view = model =>
     },
   )
 
-let main = beginnerProgram({
-  model: 4,
-  update: update,
-  view: view,
-})
+let main =
+  beginnerProgram(
+    {
+      model: 4,
+      update,
+      view,
+    },
+    ...
+  )

@@ -68,4 +68,5 @@ let main = Tea.Debug.standardProgram(
     subscriptions: subscriptions,
   },
   string_of_msg,
+  ...
 )

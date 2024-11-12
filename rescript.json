@@ -10,9 +10,8 @@
       "type": "dev"
     }
   ],
-  "bs-dependencies": ["rescript-webapi"],
+  "bs-dependencies": ["rescript-webapi", "@rescript/core"],
   "warnings": {
     "error" : false
-  },
-  "uncurried": false
+  }
 }

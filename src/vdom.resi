@@ -71,9 +71,9 @@ let emptyEventCB: 'msg => option<eventCallback>
 
 let eventHandler: (ref<applicationCallbacks<'msg>>, ref<Dom.event => option<'msg>>) => eventCallback
 
-let eventHandlerGetCB: (eventHandler<'msg>, Dom.event) => option<'msg>
+let eventHandlerGetCB: eventHandler<'msg> => Dom.event => option<'msg>
 
-let compareEventHandlerTypes: (eventHandler<'msg>, eventHandler<'msg>) => bool
+let compareEventHandlerTypes: eventHandler<'msg> => eventHandler<'msg> => bool
 
 let eventHandlerRegister: (
   ref<applicationCallbacks<'msg>>,
@@ -85,8 +85,7 @@ let eventHandlerRegister: (
 let eventHandlerUnregister: (
   Dom.eventTarget,
   string,
-  option<eventCache<'msg>>,
-) => option<eventCache<'msg>>
+) => option<eventCache<'msg>> => option<eventCache<'msg>>
 
 let eventHandlerMutate: (
   ref<applicationCallbacks<'msg>>,
@@ -153,10 +152,9 @@ let patchVNodesOnElemsReplaceNode: (
   Dom.node,
   Dom.nodeList,
   int,
-  t<'msg>,
-) => unit
+) => t<'msg> => unit
 
-let patchVNodesOnElemsCreateElement: (ref<applicationCallbacks<'msg>>, t<'msg>) => Dom.node
+let patchVNodesOnElemsCreateElement: ref<applicationCallbacks<'msg>> => t<'msg> => Dom.node
 
 let patchVNodesOnElemsMutateNode: (
   ref<applicationCallbacks<'msg>>,

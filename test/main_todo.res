@@ -360,9 +360,13 @@ let view = model =>
 
 /* Main Entrance */
 
-let main = standardProgram({
-  init,
-  update,
-  view,
-  subscriptions: _model => Sub.none,
-})
+let main =
+  standardProgram(
+    {
+      init,
+      update,
+      view,
+      subscriptions: _model => Sub.none,
+    },
+    ...
+  )

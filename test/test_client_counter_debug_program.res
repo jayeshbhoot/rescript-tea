@@ -69,4 +69,5 @@ let main = Tea.Debug.program(
     shutdown: _model => Tea.Cmd.none,
   },
   string_of_msg,
+  ...
 )

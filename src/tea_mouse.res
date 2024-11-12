@@ -5,7 +5,7 @@ type position = {
 
 let position = {
   open Tea_json.Decoder
-  map2((x, y) => {x: x, y: y}, field("pageX", int), field("pageY", int))
+  map2((x, y) => {x, y}, field("pageX", int), field("pageY", int))
 }
 
 let registerGlobal = (name, key, tagger) => {
@@ -21,10 +21,10 @@ let registerGlobal = (name, key, tagger) => {
       }
     }
     let handler = EventHandlerCallback(key, fn)
-    let eventTarget = Webapi.Dom.document |> Webapi.Dom.Document.asEventTarget
+    let eventTarget = Webapi.Dom.Document.asEventTarget(Webapi.Dom.document)
     let cache = eventHandlerRegister(callbacks, eventTarget, name, handler)
     () => {
-      let _ = eventHandlerUnregister(eventTarget, name, cache)
+      let _ = eventHandlerUnregister(eventTarget, name)(cache)
     }
   }
   Tea_sub.registration(key, enableCall)

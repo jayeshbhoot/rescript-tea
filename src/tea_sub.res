@@ -3,7 +3,7 @@ type rec t<'msg> =
   | Batch(list<t<'msg>>): t<'msg>
   | Registration(
       string,
-      (ref<Vdom.applicationCallbacks<'msg>>, unit) => unit,
+      ref<Vdom.applicationCallbacks<'msg>> => unit => unit,
       ref<option<unit => unit>>,
     ): t<'msg>
   | Mapper(
@@ -44,7 +44,7 @@ let rec run:
         switch x {
         | NoSub => ()
         | Batch(list{}) => ()
-        | Batch(subs) => List.iter(enable(callbacks), subs)
+        | Batch(subs) => List.iter(enable(callbacks, ...), subs)
         | Mapper(mapper, sub) =>
           let subCallbacks = mapper(callbacks)
           enable(subCallbacks, sub)
@@ -56,7 +56,7 @@ let rec run:
         switch x {
         | NoSub => ()
         | Batch(list{}) => ()
-        | Batch(subs) => List.iter(disable(callbacks), subs)
+        | Batch(subs) => List.iter(disable(callbacks, ...), subs)
         | Mapper(mapper, sub) =>
           let subCallbacks = mapper(callbacks)
           disable(subCallbacks, sub)

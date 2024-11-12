@@ -46,4 +46,5 @@ let main = Tea.Debug.standardProgram(
     view: view,
   },
   som,
+  ...
 )

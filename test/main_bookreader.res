@@ -37,15 +37,12 @@ let update = (model, x) =>
   | NoOp => (model, Cmd.none)
 
   | GetBook(url) =>
-    let httpCmd =
-      Http.getString(url)
-      |> Http.Progress.track(progress => GetBookProgress(url, progress))
-      |> Http.send(x =>
-        switch x {
-        | Error(_e) => NoOp
-        | Ok(output) => GetBookDone(url, output)
-        }
-      )
+    let httpCmd = Http.send(x =>
+      switch x {
+      | Error(_e) => NoOp
+      | Ok(output) => GetBookDone(url, output)
+      }
+    , Http.Progress.track(progress => GetBookProgress(url, progress), Http.getString(url)))
     (
       {
         ...model,
@@ -59,14 +56,14 @@ let update = (model, x) =>
     if Some(url) != model.bookUrl {
       (model, Cmd.none)
     } else {
-      ({...model, progress: progress}, Cmd.none)
+      ({...model, progress}, Cmd.none)
     }
 
   | GetBookDone(url, bookContent) =>
     if Some(url) != model.bookUrl {
       (model, Cmd.none)
     } else {
-      ({...model, bookContent: bookContent, progress: progressHelper(1)}, Cmd.none)
+      ({...model, bookContent, progress: progressHelper(1)}, Cmd.none)
     }
   }
 
@@ -186,10 +183,13 @@ let view = model => {
 
 let main = {
   open App
-  standardProgram({
-    init: init,
-    update: update,
-    view: view,
-    subscriptions: subscriptions,
-  })
+  standardProgram(
+    {
+      init,
+      update,
+      view,
+      subscriptions,
+    },
+    ...
+  )
 }

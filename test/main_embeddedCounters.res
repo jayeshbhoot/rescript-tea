@@ -15,13 +15,13 @@ let update = (model, x) =>
     let () = Js.log((model, idx, ms))
     {
       /* model with */
-      counters: model.counters |> List.mapi((i, m) =>
+      counters: List.mapi((i, m) =>
         if i != idx {
           m
         } else {
           Counter.update(m, ms)
         }
-      ),
+      , model.counters),
     }
   | AddCounter => {
       /* model with */
@@ -49,8 +49,12 @@ let view = model =>
     },
   )
 
-let main = beginnerProgram({
-  model: {counters: list{}},
-  update: update,
-  view: view,
-})
+let main =
+  beginnerProgram(
+    {
+      model: {counters: list{}},
+      update,
+      view,
+    },
+    ...
+  )

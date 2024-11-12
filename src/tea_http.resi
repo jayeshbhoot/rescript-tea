@@ -24,10 +24,10 @@ type expect<'res> = Expect(bodyType, response => result<'res, string>)
 
 type requestEvents<'msg> = {
   onreadystatechange: option<
-    (ref<Vdom.applicationCallbacks<'msg>>, Web.XMLHttpRequest.eventReadystatechange) => unit,
+    ref<Vdom.applicationCallbacks<'msg>> => Web.XMLHttpRequest.eventReadystatechange => unit,
   >,
   onprogress: option<
-    (ref<Vdom.applicationCallbacks<'msg>>, Web.XMLHttpRequest.eventProgress) => unit,
+    ref<Vdom.applicationCallbacks<'msg>> => Web.XMLHttpRequest.eventProgress => unit,
   >,
 }
 

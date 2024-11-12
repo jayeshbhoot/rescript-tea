@@ -34,7 +34,7 @@ let newEntry = (desc, id) => {
   description: desc,
   completed: false,
   editing: false,
-  id: id,
+  id,
 }
 
 let init = () => (emptyModel, Cmd.none)
@@ -75,12 +75,12 @@ let update = (model, x) =>
       Cmd.none,
     )
 
-  | UpdateField(field) => ({...model, field: field}, Cmd.none)
+  | UpdateField(field) => ({...model, field}, Cmd.none)
 
   | EditingEntry(id, editing) =>
     let updateEntry = t =>
       if t.id == id {
-        {...t, editing: editing}
+        {...t, editing}
       } else {
         t
       }
@@ -99,7 +99,7 @@ let update = (model, x) =>
   | UpdateEntry(id, description) =>
     let updateEntry = t =>
       if t.id == id {
-        {...t, description: description}
+        {...t, description}
       } else {
         t
       }
@@ -130,7 +130,7 @@ let update = (model, x) =>
   | Check(id, completed) =>
     let updateEntry = t =>
       if t.id == id {
-        {...t, completed: completed}
+        {...t, completed}
       } else {
         t
       }
@@ -143,7 +143,7 @@ let update = (model, x) =>
     )
 
   | CheckAll(completed) =>
-    let updateEntry = t => {...t, completed: completed}
+    let updateEntry = t => {...t, completed}
     (
       {
         ...model,
@@ -152,7 +152,7 @@ let update = (model, x) =>
       Cmd.none,
     )
 
-  | ChangeVisibility(visibility) => ({...model, visibility: visibility}, Cmd.none)
+  | ChangeVisibility(visibility) => ({...model, visibility}, Cmd.none)
   }
 
 /* View rendering */
@@ -251,7 +251,7 @@ let viewEntries = (visibility, entries) => {
               string_of_int(todo.id) ++
               (string_of_bool(todo.completed) ++
               string_of_bool(todo.editing)),
-              viewEntry(todo),
+              viewEntry(todo, ...)
             ),
           List.filter(isVisible, entries),
         ),
@@ -381,7 +381,7 @@ let view = model =>
         /* [ viewInput model.field () */
         /* Optimization: Set the input as a lazy field */
         list{
-          lazy1(model.field, viewInput(model.field)),
+          lazy1(model.field, viewInput(model.field, ...)),
           viewEntries(model.visibility, model.entries),
           viewControls(model.visibility, model.entries),
         },
@@ -393,8 +393,8 @@ let view = model =>
 /* Main Entrance */
 
 let main = standardProgram({
-  init: init,
-  update: update,
-  view: view,
+  init,
+  update,
+  view,
   subscriptions: _model => Sub.none,
-})
+}, ...)

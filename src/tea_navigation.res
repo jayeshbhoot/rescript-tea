@@ -105,11 +105,14 @@ let navigationProgram = (locationToMessage, stuff) => {
     Tea_sub.batch(list{subscribe(locationToMessage), stuff.subscriptions(model)})
 
   open! Tea_app
-  program({
-    init: init,
-    update: stuff.update,
-    view: stuff.view,
-    subscriptions: subscriptions,
-    shutdown: stuff.shutdown,
-  })
+  program(
+    {
+      init,
+      update: stuff.update,
+      view: stuff.view,
+      subscriptions,
+      shutdown: stuff.shutdown,
+    },
+    ...
+  )
 }

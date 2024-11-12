@@ -547,4 +547,4 @@ let main = standardProgram({
   update: update,
   view: view /* = viewNew */,
   subscriptions: _model => Sub.none,
-})
+}, ...)

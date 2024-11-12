@@ -11,35 +11,35 @@ type eventLoadend = Js.Json.t
 
 type _xmlhttprequest = {
   "onabort": eventAbort => unit,
-  "onabort#=": (. eventAbort => unit) => unit,
+  "onabort#=": (eventAbort => unit) => unit,
   "onerror": eventError => unit,
-  "onerror#=": (. eventError => unit) => unit,
+  "onerror#=": (eventError => unit) => unit,
   "onload": eventLoad => unit,
-  "onload#=": (. eventLoad => unit) => unit,
+  "onload#=": (eventLoad => unit) => unit,
   "onloadend": eventLoadend => unit,
-  "onloadend#=": (. eventLoadend => unit) => unit,
+  "onloadend#=": (eventLoadend => unit) => unit,
   "onloadstart": eventLoadstart => unit,
-  "onloadstart#=": (. eventLoadstart => unit) => unit,
+  "onloadstart#=": (eventLoadstart => unit) => unit,
   "onprogress": eventProgress => unit,
-  "onprogress#=": (. eventProgress => unit) => unit,
+  "onprogress#=": (eventProgress => unit) => unit,
   "onreadystatechange": eventReadystatechange => unit,
-  "onreadystatechange#=": (. eventReadystatechange => unit) => unit,
+  "onreadystatechange#=": (eventReadystatechange => unit) => unit,
   "ontimeout": eventTimeout => unit,
-  "ontimeout#=": (. eventTimeout => unit) => unit,
+  "ontimeout#=": (eventTimeout => unit) => unit,
   "readyState": int,
   "response": Js.null<unresolved>,
   "responseText": string,
   "responseType": string,
-  "responseType#=": (. string) => unit,
+  "responseType#=": string => unit,
   "responseURL": string,
   "responseXML": Js.null<Dom.document>,
   "status": int,
   "statusText": string,
   "timeout": float,
-  "timeout#=": (. float) => unit,
+  "timeout#=": float => unit,
   "upload": xmlHttpRequestUpload,
   "withCredentials": bool,
-  "withCredentials#=": (. bool) => unit,
+  "withCredentials#=": bool => unit,
 }
 
 type t = _xmlhttprequest
@@ -103,7 +103,7 @@ type responseBody =
 
 let set_onreadystatechange: (eventReadystatechange => unit, t) => unit
 
-let get_onreadystatechange: (t, eventReadystatechange) => unit
+let get_onreadystatechange: t => eventReadystatechange => unit
 
 let readyState: t => state
 
@@ -133,28 +133,28 @@ let get_withCredentials: t => bool
 
 let set_onabort: (eventAbort => unit, t) => unit
 
-let get_onabort: (t, eventAbort) => unit
+let get_onabort: t => eventAbort => unit
 
 let set_onerror: (eventError => unit, t) => unit
 
-let get_onerror: (t, eventError) => unit
+let get_onerror: t => eventError => unit
 
 let set_onload: (eventLoad => unit, t) => unit
 
-let get_onload: (t, eventLoad) => unit
+let get_onload: t => eventLoad => unit
 
 let set_onloadstart: (eventLoadstart => unit, t) => unit
 
-let get_onloadstart: (t, eventLoadstart) => unit
+let get_onloadstart: t => eventLoadstart => unit
 
 let set_onprogress: (eventLoadstart => unit, t) => unit
 
-let get_onprogress: (t, eventLoadstart) => unit
+let get_onprogress: t => eventLoadstart => unit
 
 let set_ontimeout: (eventTimeout => unit, t) => unit
 
-let get_ontimeout: (t, eventTimeout) => unit
+let get_ontimeout: t => eventTimeout => unit
 
 let set_onloadend: (eventLoadend => unit, t) => unit
 
-let get_onloadend: (t, eventLoadend) => unit
+let get_onloadend: t => eventLoadend => unit

@@ -3,7 +3,6 @@ open Tea.Html
 open Tea.Html.Attributes
 open Tea.Html.Events
 
-
 type msg = NewContent(string)
 
 let update = (_oldContent, NewContent(content)) => content
@@ -30,4 +29,4 @@ let view = content => {
   )
 }
 
-let main = beginnerProgram({model: "", view: view, update: update})
+let main = beginnerProgram({model: "", view, update}, ...)

@@ -30,4 +30,4 @@ let main = beginnerProgram({
   model: (Some("left"), None),
   update: update',
   view: view',
-})
+}, ...)

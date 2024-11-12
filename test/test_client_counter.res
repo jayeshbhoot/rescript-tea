@@ -52,4 +52,4 @@ let main = beginnerProgram({
   model: 4,
   update: update,
   view: view,
-})
+}, ...)

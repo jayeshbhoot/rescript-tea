@@ -245,7 +245,7 @@ let viewEntries = (visibility, entries) => {
               Belt.Int.toString(todo.id) ++
               (string_of_bool(todo.completed) ++
               string_of_bool(todo.editing)),
-              viewEntry(todo),
+              viewEntry(todo, ...),
             )
           } else {
             noNode
@@ -382,7 +382,7 @@ let view = model =>
         /* [ viewInput model.field () */
         /* Optimization: Set the input as a lazy field */
         list{
-          lazy1(model.field, viewInput(model.field)),
+          lazy1(model.field, viewInput(model.field, ...)),
           viewEntries(model.visibility, model.entries),
           viewControls(model.visibility, model.entries),
         },
@@ -398,4 +398,4 @@ let main = standardProgram({
   update: update,
   view: view,
   subscriptions: _model => Sub.none,
-})
+}, ...)

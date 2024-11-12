@@ -38,7 +38,7 @@ type msg =
 
 /* Type helpers */
 
-let mathMod = (baseAdd, mult) => {baseAdd: baseAdd, mult: mult}
+let mathMod = (baseAdd, mult) => {baseAdd, mult}
 
 /* Init functionality */
 
@@ -46,7 +46,7 @@ let init_mathMod = mathMod(1.0, 1.0)
 
 let empty_mathMod = mathMod(0.0, 1.0)
 
-let init_upgrade = (cost, name, math) => {cost: cost, name: name, math: math}
+let init_upgrade = (cost, name, math) => {cost, name, math}
 
 let init_upgrades = List.sort(
   (upgradeL, upgradeR) => int_of_float(upgradeL.cost -. upgradeR.cost),
@@ -157,42 +157,39 @@ let applyUpgrade = (name, model) => {
   aux(model, list{}, model.upgradesRemaining)
 }
 
-let update = model => {
+let update = (model, msg) => {
   /* let () = Js.log ("Update", model) in */
   open AnimationFrame
 
-  x =>
-    switch x {
-    | OnFrame(ev) => (
-        {
-          ...model,
-          startTime: if model.startTime < 1.0 {
-            ev.time
-          } else {
-            model.startTime
-          },
-          curTime: ev.time,
-          credits: model.credits +.
-          ev.delta *.
-          0.001 *.
-          calcWorth_click(model.clickWorthMath) *.
-          model.autoClicker.mult *.
-          model.autoClicker.baseAdd,
+  switch msg {
+  | OnFrame(ev) => (
+      {
+        ...model,
+        startTime: if model.startTime < 1.0 {
+          ev.time
+        } else {
+          model.startTime
         },
-        Cmd.none,
-      )
-    | Click => (
-        {
-          ...model,
-          credits: model.credits +. calcWorth_click(model.clickWorthMath),
-        },
-        Cmd.none,
-      )
-    | DoUpgrade(
-        name,
-      ) => /* let () = Js.log ("DoUpgrade", name, model, applyUpgrade name model) in */
-      (applyUpgrade(name, model), Cmd.none)
-    }
+        curTime: ev.time,
+        credits: model.credits +.
+        ev.delta *.
+        0.001 *.
+        calcWorth_click(model.clickWorthMath) *.
+        model.autoClicker.mult *.
+        model.autoClicker.baseAdd,
+      },
+      Cmd.none,
+    )
+  | Click => (
+      {
+        ...model,
+        credits: model.credits +. calcWorth_click(model.clickWorthMath),
+      },
+      Cmd.none,
+    )
+  | DoUpgrade(name) => /* let () = Js.log ("DoUpgrade", name, model, applyUpgrade name model) in */
+    (applyUpgrade(name, model), Cmd.none)
+  }
 }
 
 let subscriptions = model =>
@@ -245,7 +242,8 @@ let view_botBar = model =>
 
 let rec view_upgrades = (model, x) =>
   switch x {
-  | list{upgrade, ...rest} if model.credits >= upgrade.cost => list{
+  | list{upgrade, ...rest} if model.credits >= upgrade.cost =>
+    list{
       button(~key=upgrade.name, list{onClick(DoUpgrade(upgrade.name))}, list{text(upgrade.name)}),
       ...view_upgrades(model, rest),
     }
@@ -273,8 +271,8 @@ let view = model =>
   )
 
 let main = standardProgram({
-  init: init,
-  update: update,
-  view: view,
-  subscriptions: subscriptions,
-})
+  init,
+  update,
+  view,
+  subscriptions,
+}, ...)

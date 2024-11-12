@@ -83,5 +83,5 @@ let main = {
     model: initialState,
     update: update,
     view: view,
-  })
+  }, ...)
 }

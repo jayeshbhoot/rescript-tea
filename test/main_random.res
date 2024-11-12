@@ -33,4 +33,4 @@ let main = standardProgram({
   update: update,
   view: view,
   subscriptions: subscriptions,
-})
+}, ...)
